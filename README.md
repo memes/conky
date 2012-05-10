@@ -1,0 +1,4 @@
+conky
+=====
+
+Conky configuration
