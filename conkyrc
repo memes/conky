@@ -61,7 +61,7 @@ ${goto 90}${font Liberation Sans:size=7,weight:normal}${color2}${top_mem name 2}
 ${goto 90}${font Liberation Sans:size=7,weight:normal}${color3}${top_mem name 3}${alignr}${top_mem mem 3}%
 
 ${voffset 35}
-${goto 90}${font Liberation Sans:size=7,weight:bold}${color}TEMP${if_existing /sys/class/hwmon/hwmon1/device/fan1_input}${alignr}${font Liberation Sans:size=7,weight:bold}${color1}Fan ${hwmon 1 fan 1}${endif}
+${goto 90}${font Liberation Sans:size=7,weight:bold}${color}TEMP${if_existing /sys/class/hwmon/hwmon0/device/fan1_input}${alignr}${font Liberation Sans:size=7,weight:bold}${color1}Fan ${hwmon 0 fan 1}${endif}${if_existing /sys/class/hwmon/hwmon1/device/fan1_input}${alignr}${font Liberation Sans:size=7,weight:bold}${color1}Fan ${hwmon 1 fan 1}${endif}
 
 ${voffset 65}
 ${goto 90}${font Liberation Sans:size=7,weight:bold}${color}POWER${alignr}${font Liberation Sans:size=7,weight:bold}${color1}AC ${acpiacadapter}
