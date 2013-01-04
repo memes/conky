@@ -56,7 +56,7 @@ function customise(params)
 			  min_value = 30, max_value = 110, critical_trip = 0.875,
 		       })
    -- Battery charge gauge; indicate a low trip of 20%
-   table.insert(params, { name = 'battery_percent',
+   table.insert(params, { name = 'battery_percent', arg = 'BAT1',
 			  x = 85, y = 475, caption = 'BAT',
 			  critical_trip = 0.2, inverse_trip = true,
 		       })
