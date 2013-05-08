@@ -56,15 +56,14 @@ Power ${if_existing /sys/class/power_supply/ACAD}${acpiacadapter ACAD}${else}${a
 # CPU
 ${font Open Sans:Bold:size=10}${color dodgerblue3}CPU${hr 2}
 $color${font}${lua conky_cpuDisplayName} $alignr ${freq_g cpu0}GHz
-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-${if_existing /sys/bus/cpu/devices/cpu0}${font}Core 0 ${color dodgerblue3}${lua_parse conky_cpuTemp 0} ${color}@ ${cpu cpu1} % $alignc ${color dodgerblue3}${cpubar cpu1}${color}${endif}
-${if_existing /sys/bus/cpu/devices/cpu1}${font}Core 1 ${color dodgerblue3}${lua_parse conky_cpuTemp 1} ${color}@ ${cpu cpu2} % $alignc ${color dodgerblue3}${cpubar cpu2}${color}${endif}
-${if_existing /sys/bus/cpu/devices/cpu2}${font}Core 2 ${color dodgerblue3}${lua_parse conky_cpuTemp 2} ${color}@ ${cpu cpu3} % $alignc ${color dodgerblue3}${cpubar cpu3}${color}${endif}
-${if_existing /sys/bus/cpu/devices/cpu3}${font}Core 3 ${color dodgerblue3}${lua_parse conky_cpuTemp 3} ${color}@ ${cpu cpu4} % $alignc ${color dodgerblue3}${cpubar cpu4}${color}${endif}
-${if_existing /sys/bus/cpu/devices/cpu4}${font}Core 4 ${color dodgerblue3}${lua_parse conky_cpuTemp 4} ${color}@ ${cpu cpu5} % $alignc ${color dodgerblue3}${cpubar cpu5}${color}${endif}
-${if_existing /sys/bus/cpu/devices/cpu5}${font}Core 5 ${color dodgerblue3}${lua_parse conky_cpuTemp 5} ${color}@ ${cpu cpu6} % $alignc ${color dodgerblue3}${cpubar cpu6}${color}${endif}
-${if_existing /sys/bus/cpu/devices/cpu6}${font}Core 6 ${color dodgerblue3}${lua_parse conky_cpuTemp 6} ${color}@ ${cpu cpu7} % $alignc ${color dodgerblue3}${cpubar cpu7}${color}${endif}
-${if_existing /sys/bus/cpu/devices/cpu7}${font}Core 7 ${color dodgerblue3}${lua_parse conky_cpuTemp 7} ${color}@ ${cpu cpu8} % $alignc ${color dodgerblue3}${cpubar cpu8}${color}${endif}
+${if_existing /sys/bus/cpu/devices/cpu0}${font}Core 0 ${color dodgerblue3}${lua_parse conky_cpuTemp 0}${color}$alignc ${color dodgerblue3}${cpubar cpu1}${color}${endif}${if_existing /sys/bus/cpu/devices/cpu1}
+${font}Core 1 ${color dodgerblue3}${lua_parse conky_cpuTemp 1}${color}$alignc ${color dodgerblue3}${cpubar cpu2}${color}${endif}${if_existing /sys/bus/cpu/devices/cpu2}
+${font}Core 2 ${color dodgerblue3}${lua_parse conky_cpuTemp 2}${color}$alignc ${color dodgerblue3}${cpubar cpu3}${color}${endif}${if_existing /sys/bus/cpu/devices/cpu3}
+${font}Core 3 ${color dodgerblue3}${lua_parse conky_cpuTemp 3}${color}$alignc ${color dodgerblue3}${cpubar cpu4}${color}${endif}${if_existing /sys/bus/cpu/devices/cpu4}
+${font}Core 4 ${color dodgerblue3}${lua_parse conky_cpuTemp 4}${color}$alignc ${color dodgerblue3}${cpubar cpu5}${color}${endif}${if_existing /sys/bus/cpu/devices/cpu5}
+${font}Core 5 ${color dodgerblue3}${lua_parse conky_cpuTemp 5}${color}$alignc ${color dodgerblue3}${cpubar cpu6}${color}${endif}${if_existing /sys/bus/cpu/devices/cpu6}
+${font}Core 6 ${color dodgerblue3}${lua_parse conky_cpuTemp 6}${color}$alignc ${color dodgerblue3}${cpubar cpu7}${color}${endif}${if_existing /sys/bus/cpu/devices/cpu7}
+${font}Core 7 ${color dodgerblue3}${lua_parse conky_cpuTemp 7}${color}$alignc ${color dodgerblue3}${cpubar cpu8}${color}${endif}
  
 # TOP
 ${font Open Sans:Bold:size=10}${color dodgerblue3}TOP${hr 2}
@@ -82,7 +81,7 @@ $mem / $memmax $alignr $memperc %
 $membar
 
 ${font Open Sans:bold:size=8.5}SWAP$font
-$swap / $swapmax $alignr $swapperc
+$swap / $swapmax $alignr $swapperc %
 ${swapbar};
  
 # NETWORK

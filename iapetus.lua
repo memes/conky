@@ -5,6 +5,7 @@
 
 -- Setup 
 function customise(params)
+   params['cpuDisplayName'] = 'i7-3630QM'
    params['batteryObj'] = 'BAT1'
    params['coreTemps'] = { '${hwmon 1 temp 2} °C',
 			   '${hwmon 1 temp 2} °C',

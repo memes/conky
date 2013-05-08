@@ -3,6 +3,7 @@
 -- the function customise is executed by the main script; this script needs to
 -- populate the supplied table with the details for the required values
 function customise(params)
+   params['cpuDisplayName'] = 'Core2Duo T9600'
    params['coreTemps'] = { '${hwmon temp 2} °C',
 			   '${hwmon temp 2} °C',
 			}
