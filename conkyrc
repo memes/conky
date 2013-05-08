@@ -1,4 +1,4 @@
-background yes
+background no
 update_interval 1
 disable_auto_reload no
 cpu_avg_samples 2
@@ -29,45 +29,97 @@ draw_graph_borders no
 override_utf8_locale yes
 use_xft yes
 xftfont Liberation Sans:size=8
-xftalpha 0.5
+xftalpha 0.1
 uppercase no
+use_spacer none
 
-default_color FFFFFF
-color1 DDDDDD
-color2 AAAAAA
-color3 888888
-color4 666666
+default_color lightgray
+default_shade_color red
+default_outline_color green
 
-lua_load ~/.conky/gauges.lua
-lua_draw_hook_post main
+lua_load ~/.conky/conky.lua
+lua_startup_hook conky_startup
 
 if_up_strictness link
 
 TEXT
-${voffset 35}
-${goto 100}${color4}${font Liberation Sans:size=22}${time %e}${color1}${voffset 5}${offset -40}${font Liberation Sans:size=10}${time %A}
-${goto 95}${voffset -2}${color2}${font Liberation Sans:size=9}${time %b} ${voffset -2}${color3}${font Liberation Sans:size=12}${time %Y}${font}
+$color${font}${font Open Sans:size=20}$alignr${time %H:%M}$font
+${color dodgerblue3}${font Open Sans:Bold:size=10}Date${hr 2}$color$font
+$color${font Open Sans:size=12}$alignr${time %a}, ${time %d %b %Y}$font$color
+ 
+# SYS
+${font Open Sans:Bold:size=10}${color dodgerblue3}SYSTEM${hr 2}$color${font}
+$sysname $kernel $alignr $machine
+Uptime $alignr $uptime
+Power ${if_existing /sys/class/power_supply/ACAD}${acpiacadapter ACAD}${else}${acpiacadapter}${endif} $alignc ${color dodgerblue3}${lua_parse conky_batteryObj}${color}
+ 
+# CPU
+${font Open Sans:Bold:size=10}${color dodgerblue3}CPU${hr 2}
+$color${font}${lua conky_cpuDisplayName} $alignr ${freq_g cpu0}GHz
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+${if_existing /sys/bus/cpu/devices/cpu0}${font}Core 0 ${color dodgerblue3}${lua_parse conky_cpuTemp 0} ${color}@ ${cpu cpu1} % $alignc ${color dodgerblue3}${cpubar cpu1}${color}${endif}
+${if_existing /sys/bus/cpu/devices/cpu1}${font}Core 1 ${color dodgerblue3}${lua_parse conky_cpuTemp 1} ${color}@ ${cpu cpu2} % $alignc ${color dodgerblue3}${cpubar cpu2}${color}${endif}
+${if_existing /sys/bus/cpu/devices/cpu2}${font}Core 2 ${color dodgerblue3}${lua_parse conky_cpuTemp 2} ${color}@ ${cpu cpu3} % $alignc ${color dodgerblue3}${cpubar cpu3}${color}${endif}
+${if_existing /sys/bus/cpu/devices/cpu3}${font}Core 3 ${color dodgerblue3}${lua_parse conky_cpuTemp 3} ${color}@ ${cpu cpu4} % $alignc ${color dodgerblue3}${cpubar cpu4}${color}${endif}
+${if_existing /sys/bus/cpu/devices/cpu4}${font}Core 4 ${color dodgerblue3}${lua_parse conky_cpuTemp 4} ${color}@ ${cpu cpu5} % $alignc ${color dodgerblue3}${cpubar cpu5}${color}${endif}
+${if_existing /sys/bus/cpu/devices/cpu5}${font}Core 5 ${color dodgerblue3}${lua_parse conky_cpuTemp 5} ${color}@ ${cpu cpu6} % $alignc ${color dodgerblue3}${cpubar cpu6}${color}${endif}
+${if_existing /sys/bus/cpu/devices/cpu6}${font}Core 6 ${color dodgerblue3}${lua_parse conky_cpuTemp 6} ${color}@ ${cpu cpu7} % $alignc ${color dodgerblue3}${cpubar cpu7}${color}${endif}
+${if_existing /sys/bus/cpu/devices/cpu7}${font}Core 7 ${color dodgerblue3}${lua_parse conky_cpuTemp 7} ${color}@ ${cpu cpu8} % $alignc ${color dodgerblue3}${cpubar cpu8}${color}${endif}
+ 
+# TOP
+${font Open Sans:Bold:size=10}${color dodgerblue3}TOP${hr 2}
+$color${font}${font Open Sans:bold:size=8.5}PROCESS $alignr CPU$font
+${top name 1}${alignr}${top cpu 1} %
+${top name 2}${alignr}${top cpu 2} %
+${top name 3}${alignr}${top cpu 3} %
+${top name 4}${alignr}${top cpu 4} %
+${top name 5}${alignr}${top cpu 5} %
+ 
+# MEMORY
+${font Open Sans:Bold:size=10}${color dodgerblue3}MEMORY${hr 2}
+$color${font}${font Open Sans:bold:size=8.5}RAM$font
+$mem / $memmax $alignr $memperc %
+$membar
 
-${voffset 70}
-${goto 90}${font Liberation Sans:size=7,weight:bold}${color}CPU${font Liberation Sans:size=7,weight:normal}${alignr}${color}${processes} procs
-${goto 90}${font Liberation Sans:size=7,weight:normal}${color1}${top name 1}${alignr}${top cpu 1}%
-${goto 90}${font Liberation Sans:size=7,weight:normal}${color2}${top name 2}${alignr}${top cpu 2}%
-${goto 90}${font Liberation Sans:size=7,weight:normal}${color3}${top name 3}${alignr}${top cpu 3}%
+${font Open Sans:bold:size=8.5}SWAP$font
+$swap / $swapmax $alignr $swapperc
+${swapbar};
+ 
+# NETWORK
+${font Open Sans:Bold:size=10}${color dodgerblue3}NETWORK${if_up tun0} VPN${endif}${hr 2}$color${font}
+${if_up wlan0}${font Open Sans:bold:size=8.5}wlan0 $font$alignr ${addr wlan0}
+down $alignr ${downspeedf wlan0} kb/s
+up $alignr ${upspeedf wlan0} kb/s${endif}${if_up eth0}${font Open Sans:bold:size=8.5}eth0 $font$alignr ${addr eth0}
+down $alignr ${downspeedf eth0} kb/s
+up $alignr ${upspeedf eth0} kb/s
+${endif}
+ 
+# HDD
+${font Open Sans:Bold:size=10}${color dodgerblue3}DISK${hr 2}$color${font}
+${font Open Sans:bold:size=8.5}ROOT $font$font$alignr ${fs_type /}
+${fs_used /} / ${fs_size /} $alignr ${fs_used_perc /} %
+${fs_bar /}${if_mounted /boot}
 
-${voffset 35}
-${goto 90}${font Liberation Sans:size=7,weight:bold}${color}MEM
-${goto 90}${font Liberation Sans:size=7,weight:normal}${color1}${top_mem name 1}${alignr}${top_mem mem 1}%
-${goto 90}${font Liberation Sans:size=7,weight:normal}${color2}${top_mem name 2}${alignr}${top_mem mem 2}%
-${goto 90}${font Liberation Sans:size=7,weight:normal}${color3}${top_mem name 3}${alignr}${top_mem mem 3}%
+${font Open Sans:bold:size=8.5}BOOT $font$font$alignr ${fs_type /boot}
+${fs_used /boot} / ${fs_size /boot} $alignr ${fs_used_perc /boot} %
+${fs_bar /boot}${endif}${if_mounted /home}
 
-${voffset 35}
-${goto 90}${font Liberation Sans:size=7,weight:bold}${color}TEMP${if_existing /sys/class/hwmon/hwmon0/device/fan1_input}${alignr}${font Liberation Sans:size=7,weight:bold}${color1}Fan ${hwmon 0 fan 1}${endif}${if_existing /sys/class/hwmon/hwmon1/device/fan1_input}${alignr}${font Liberation Sans:size=7,weight:bold}${color1}Fan ${hwmon 1 fan 1}${endif}
+${font Open Sans:bold:size=8.5}HOME $font$font$alignr ${fs_type /home}
+${fs_used /home} / ${fs_size /home} $alignr ${fs_used_perc /home} %
+${fs_bar /home}${endif}${if_mounted /opt}
 
-${voffset 65}
-${goto 90}${font Liberation Sans:size=7,weight:bold}${color}POWER${alignr}${font Liberation Sans:size=7,weight:bold}${color1}AC ${if_existing /sys/class/power_supply/ACAD}${acpiacadapter ACAD}${else}${acpiacadapter}${endif}
+${font Open Sans:bold:size=8.5}OPT $font$font$alignr ${fs_type /opt}
+${fs_used /opt} / ${fs_size /opt} $alignr ${fs_used_perc /opt} %
+${fs_bar /opt}${endif}${if_mounted /tmp}
 
-${voffset 65}
-${goto 90}${font Liberation Sans:size=7,weight:bold}${color}AUDIO${alignr}${color3}${if_mixer_mute}muted${endif}
+${font Open Sans:bold:size=8.5}TMP $font$font$alignr ${fs_type /tmp}
+${fs_used /tmp} / ${fs_size /tmp} $alignr ${fs_used_perc /tmp} %
+${fs_bar /tmp}${endif}${if_mounted /usr}
 
-${voffset 35}
-${goto 90}${font Liberation Sans:size=7,weight:bold}${color}NET${alignr}${color3}${if_up eth0}ethernet${endif}${if_up wlan0} wifi${endif}${if_up tun0} vpn${endif}
+${font Open Sans:bold:size=8.5}USR $font$font$alignr ${fs_type /usr}
+${fs_used /usr} / ${fs_size /usr} $alignr ${fs_used_perc /usr} %
+${fs_bar /usr}${endif}${if_mounted /var}
+
+${font Open Sans:bold:size=8.5}VAR $font$font$alignr ${fs_type /var}
+${fs_used /var} / ${fs_size /var} $alignr ${fs_used_perc /var} %
+${fs_bar /var}${endif}
