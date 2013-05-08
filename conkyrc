@@ -43,8 +43,8 @@ lua_startup_hook conky_startup
 if_up_strictness link
 
 TEXT
-$color${font}${font Open Sans:size=20}$alignr${time %H:%M}$font
-${color dodgerblue3}${font Open Sans:Bold:size=10}Date${hr 2}$color$font
+$color${font}${font Open Sans:size=20}$alignr${time %l:%M %P}$font
+${color dodgerblue3}${font Open Sans:Bold:size=10}DATE${hr 2}$color$font
 $color${font Open Sans:size=12}$alignr${time %a}, ${time %d %b %Y}$font$color
  
 # SYS
