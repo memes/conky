@@ -39,3 +39,28 @@ end
 function conky_hddTemp()
    return params['hddTemp'] or ''
 end
+
+-- Return the cpu bar graph for the core
+function conky_cpuBar(core)
+   return string.format('${cpubar cpu%s}', core + 1)
+end
+
+-- Return any mounts in /media
+function conky_mediaMounts(template)
+   local result = nil
+   local mount = nil
+   local line = nil
+   local procMounts = io.open('/proc/mounts')
+   for line in procMounts:lines() do
+      local mount = string.match(line, '/media/[^/ ]+')
+      if (mount) then
+	 if (result) then 
+	    result = string.format('%s ${%s %s}', result, template, mount)
+	 else
+	    result = string.format('${%s %s}', template, mount)
+	 end
+      end
+   end
+   procMounts:close()
+   return result or ''
+end
