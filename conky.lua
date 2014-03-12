@@ -52,7 +52,7 @@ function conky_mediaMounts(template)
    local line = nil
    local procMounts = io.open('/proc/mounts')
    for line in procMounts:lines() do
-      local mount = string.match(line, '/media/[^/ ]+')
+      local mount = string.match(line, '/media/.*/[^/ ]+')
       if (mount) then
 	 if (result) then 
 	    result = string.format('%s ${%s %s}', result, template, mount)
@@ -62,5 +62,24 @@ function conky_mediaMounts(template)
       end
    end
    procMounts:close()
+   return result or ''
+end
+
+-- Return a list of running VMs for supplied context
+function conky_virtVM(template, context)
+   local result = nil
+   local line = nil
+   local virsh = io.popen('virsh -c ' .. context .. ' list')
+   for line in virsh:lines() do
+      local vm, status = string.match(line, '%s?%d+%s+(%S+)%s+(.+)')
+      if (vm) then
+	 if (result) then
+	    result = string.format('%s${%s %s %s}', result, template, vm, status)
+	 else
+	    result = string.format('${%s %s %s}', template, vm, status)
+	 end
+      end
+   end
+   virsh:close()
    return result or ''
 end

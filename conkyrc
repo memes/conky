@@ -56,6 +56,9 @@ template1 ${if_up \1}\n${font Open Sans:bold:size=8.5}\1 ${font}$alignr ${addr \
 # percentage, plus a bar
 template2 ${if_mounted \1}\n${font Open Sans:bold:size=8.5}\1${font}$alignr ${fs_type \1}\n${fs_used \1} / ${fs_size \1} $alignr ${fs_used_perc \1} %\n${fs_bar \1}${endif}
 
+# VM:
+template3 \n${font Open Sans:bold:size=8.5}\1${font}$alignr \2
+
 TEXT
 ${color}${font Open Sans:size=20}$alignr${time %l:%M %P}${font}
 ${color dodgerblue3}${font Open Sans:Bold:size=10}DATE${hr 2}${font}${color}
@@ -87,4 +90,7 @@ ${swapbar}
 ${font Open Sans:Bold:size=10}${color dodgerblue3}NETWORK${if_up tun0} VPN${endif}${hr 2}${color}${font}${template1 wlan0}${template1 eth0}
  
 # HDD
-${font Open Sans:Bold:size=10}${color dodgerblue3}DISK${hr 2}${color}${font}${template2 /}${template2 /boot}${template2 /data}${template2 /home}${template2 /opt}${template2 /tmp}${template2 /usr}${template2 /var}${lua_parse conky_mediaMounts template2}
+${font Open Sans:Bold:size=10}${color dodgerblue3}DISK${hr 2}${color}${font}${template2 /}${template2 /boot}${template2 /data}${template2 /home}${template2 /mnt}${template2 /opt}${template2 /tmp}${template2 /usr}${template2 /var}${lua_parse conky_mediaMounts template2}
+
+# VMs
+${font Open Sans:Bold:size=10}${color dodgerblue3}VM${hr 2}${color}${font}${lua_parse conky_virtVM template3 qemu:///system}${lua_parse conky_virtVM template3 lxc:///}
