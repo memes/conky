@@ -67,7 +67,7 @@ ${color}${font Open Sans:size=12}$alignr${time %a}, ${time %d %b %Y}${font}
 # SYS
 ${font Open Sans:Bold:size=10}${color dodgerblue3}SYSTEM${hr 2}${color}${font}
 ${color}${font}${lua conky_cpuDisplayName} $alignr ${freq_g cpu0}GHz${template0 0}${template0 1}${template0 2}${template0 3}${template0 4}${template0 5}${template0 6}${template0 7}
-Power ${if_existing /sys/class/power_supply/ACAD}${acpiacadapter ACAD}${else}${acpiacadapter}${endif} $alignc ${color dodgerblue3}${lua_parse conky_batteryObj}${color}
+Power ${if_existing /sys/class/power_supply/ACAD}${acpiacadapter ACAD}${else}${acpiacadapter}${endif} $alignc ${color dodgerblue3}${lua_parse conky_batteryBar}${color}
  
 # TOP
 ${font Open Sans:Bold:size=10}${color dodgerblue3}TOP${hr 2}${color}${font}

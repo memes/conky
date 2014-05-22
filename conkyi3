@@ -1,0 +1,42 @@
+# Conky config for i3bar consumption
+background no
+out_to_x no
+out_to_console yes
+update_interval 1
+disable_auto_reload no
+cpu_avg_samples 2
+net_avg_samples 2
+temperature_unit celsius
+double_buffer no
+no_buffers yes
+override_utf_locale yes
+uppercase no
+use_spacer none
+lua_load ~/.conky/conky.lua
+lua_startup_hook conky_startup
+if_up_strictness link
+
+# Templates
+#
+# CPU: if the 0-based core exists, output the name and utilisation
+template0 ${if_existing /sys/bus/cpu/devices/cpu\1}µ\1 ${lua_parse conky_cpuVal \1}%${endif}
+
+# Network: if the specified interface is up, give up and down speeds
+template1 ${if_up \1} \1 ${downspeed \1} ${upspeed \1}${endif}
+
+# HDD: if the mount point is mounted, display percentage
+template2 ${if_mounted \1}\1 ${fs_used_perc \1}% ${endif}
+
+# VM: output JSON for each VM found
+template3 {"name":"vm","instance":"\1","full_text":"\1","short_text":"\1","align":"right","urgent":false,"separator":true,"separator_block_width":3},
+
+TEXT
+[{"name":"system","instance":"0","full_text":" ${freq_g cpu0}GHz ${template0 0} ${template0 1} ${template0 2} ${template0 3} ${template0 4} ${template0 5} ${template0 6} ${template0 7}","short_text":" ${freq_g cpu0}G ${cpu cpu0}%","align":"right","urgent":false,"separator":true,"separator_block_width":3},\
+{"name":"power","instance":"0","full_text":" ${if_existing /sys/class/power_supply/ACAD}${acpiacadapter ACAD}${else}${acpiacadapter}${endif} ${lua_parse conky_batteryVal}","short_text":" ${if_existing /sys/class/power_supply/ACAD}${acpiacadapter ACAD}${else}${acpiacadapter}${endif} ${lua_parse conky_batteryStatus}","align":"right","urgent":false,"separator":true,"separator_block_width":3},\
+{"name":"mem","instance":"0","full_text":" ${memperc}% ${swapperc}%","short_text":" ${memperc}% S: ${swapperc}%","align":"right","urgent":false,"separator":true,"separator_block_width":3},\
+{"name":"net","instance":"0","full_text":"${if_up tun0}  ${endif}${template1 wlan0}${template1 eth0}","short_text":"${if_up tun0}  ${endif}${template1 wlan0}${template1 eth0}","align":"right","urgent":false,"separator":true,"separator_block_width":3},\
+{"name":"disk","instance":"0","full_text":" ${template2 /}${template2 /boot}${template2 /data}${template2 /home}${template2 /mnt}${template2 /opt}${template2 /tmp}${template2 /usr}${template2 /var}${lua_parse conky_mediaMounts template2}","short_text":" ${template2 /}${template /tmp}","align":"right","urgent":false,"separator":true,"separator_block_width":3},\
+${lua_parse conky_virtVM template3 qemu:///system}\
+${lua_parse conky_virtVM template3 lxc:///}\
+{"name":"timestamp","instance":"0","full_text":"${time %I:%M %P %d/%m/%y}","short_text":"${time %d/%m/%y}","align":"right","urgent":false,"separator":false,"separator_block_width":3}\
+],
