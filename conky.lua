@@ -100,3 +100,24 @@ function conky_virtVM(template, context)
    virsh:close()
    return result or ''
 end
+
+-- Return a list of running Docker containers
+function conky_dockerContainer(template)
+   local result = nil
+   local docker = io.popen('docker ps')
+   local line = docker:read('*line')
+   for line in docker:lines() do
+      local status, name = string.match(line, '.*%s%s+(Up %d+ %S+)%s+(%S+)')
+      if (name) then
+	 if (result) then
+	    result = string.format('%s${%s %s %s}', result, template, name,
+				   string.gsub(status, " ", "\\ "))
+	 else
+	    result = string.format('${%s %s %s}', template, name,
+				   string.gsub(status, " ", "\\ "))
+	 end
+      end
+   end
+   docker:close()
+   return result or ''
+end
