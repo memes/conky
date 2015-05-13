@@ -107,7 +107,7 @@ function conky_dockerContainer(template)
    local docker = io.popen('docker ps')
    local line = docker:read('*line')
    for line in docker:lines() do
-      local status, name = string.match(line, '.*%s%s+(Up %d+ %S+)%s+(%S+)')
+      local status, name = string.match(line, '.*%s%s+(Up %d+ %S+).*%s+(%S+)')
       if (name) then
 	 if (result) then
 	    result = string.format('%s${%s %s %s}', result, template, name,
