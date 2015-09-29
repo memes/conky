@@ -104,10 +104,10 @@ end
 -- Return a list of running Docker containers
 function conky_dockerContainer(template)
    local result = nil
-   local docker = io.popen('docker ps')
-   local line = docker:read('*line')
+   local line = nil
+   local docker = io.popen('sh ~/.conky/running_containers.sh')
    for line in docker:lines() do
-      local status, name = string.match(line, '.*%s%s+(Up %d+ %S+).*%s+(%S+)')
+      local status, name = string.match(line, '(.*)%s(%S+)$')
       if (name) then
 	 if (result) then
 	    result = string.format('%s${%s %s %s}', result, template, name,

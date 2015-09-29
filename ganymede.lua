@@ -5,13 +5,13 @@
 function customise(params)
    params['cpuDisplayName'] = 'i7-i4712HQ'
    params['batteryObj'] = 'BAT1'
-   params['coreTemps'] = { '${hwmon 7 temp 2} °C',
-			   '${hwmon 7 temp 2} °C',
-			   '${hwmon 7 temp 3} °C',
-			   '${hwmon 7 temp 3} °C',
-			   '${hwmon 7 temp 4} °C',
-			   '${hwmon 7 temp 4} °C',
-			   '${hwmon 7 temp 5} °C',
-			   '${hwmon 7 temp 5} °C',
+   params['coreTemps'] = { '${hwmon 1 temp 2} °C',
+			   '${hwmon 1 temp 2} °C',
+			   '${hwmon 1 temp 3} °C',
+			   '${hwmon 1 temp 3} °C',
+			   '${hwmon 1 temp 4} °C',
+			   '${hwmon 1 temp 4} °C',
+			   '${hwmon 1 temp 5} °C',
+			   '${hwmon 1 temp 5} °C',
 			}
 end

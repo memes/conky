@@ -11,10 +11,10 @@ text_buffer_size 2048
 
 gap_x 10
 gap_y 10
-minimum_size 200 450
+minimum_size 400 450
 maximum_width 400
 own_window yes
-own_window_type override
+own_window_type desktop
 own_window_transparent yes
 own_window_hints undecorate,sticky,skip_taskbar,skip_pager,below
 border_inner_margin 0
