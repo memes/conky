@@ -30,11 +30,24 @@ function conky_batteryVal()
    return string.format('${battery %s}',  params['batteryObj'] or 'BAT0')
 end
 
+-- Return the battery percentage for this system
+function conky_batteryPerc()
+   return string.format('${battery_percent %s}',  params['batteryObj'] or 'BAT0')
+end
+
 -- Return the short battery status for this system
 function conky_batteryStatus()
    return string.format('${battery_short %s}',  params['batteryObj'] or 'BAT0')
 end
 
+-- Return 1/0 if AC is plugged in
+function conky_acOnline()
+   local sysfs = io.open(string.format('/sys/class/power_supply/%s/online', params['acadObj'] or 'ACAD'))
+   local acOnline = sysfs:read(1)
+   sysfs:close()
+   return acOnline or ''
+end
+      
 -- Return the cpu temperature for core
 function conky_cpuTemp(core)
    local coreIndex = tonumber(core)
