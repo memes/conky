@@ -7,7 +7,7 @@ local params = {
 -- Prepare the one time variables
 function conky_startup()
    local hostname = conky_parse('${nodename_short}')
-   local customisation_file = string.sub(string.gsub(debug.getinfo(1).source, 'conky\.lua', hostname .. '.lua'), 2)
+   local customisation_file = string.sub(string.gsub(debug.getinfo(1).source, 'conky%.lua', hostname .. '.lua'), 2)
    local customisation_script, error = loadfile(customisation_file)
    if (not error) then
       customisation_script()
@@ -76,16 +76,18 @@ end
 -- Return any mounts in /media
 function conky_mediaMounts(template)
    local result = nil
-   local mount = nil
    local line = nil
    local procMounts = io.open('/proc/mounts')
    for line in procMounts:lines() do
       local mount = string.match(line, '/media/.*/[^/ ]+')
       if (mount) then
-	 if (result) then 
-	    result = string.format('%s ${%s %s}', result, template, mount)
-	 else
-	    result = string.format('${%s %s}', template, mount)
+	 local short_name = string.match(mount, '.*/(.-)$')
+	 if (short_name) then
+	    if (result) then 
+	       result = string.format('%s ${%s %s %s}', result, template, mount, short_name)
+	    else
+	       result = string.format('${%s %s %s}', template, mount, short_name)
+	    end
 	 end
       end
    end
@@ -133,4 +135,12 @@ function conky_dockerContainer(template)
    end
    docker:close()
    return result or ''
+end
+
+-- Return rfkill soft state
+function conky_rfkill()
+   local sysfs = io.open(string.format('/sys/class/rfkill/%s/soft', params['rfkillObj'] or 'rfkill0'))
+   local rfkill = sysfs:read(1)
+   sysfs:close()
+   return rfkill or ''
 end
