@@ -4,7 +4,7 @@
 -- populate the supplied table with the details for the required values
 function customise(params)
    params['cpuDisplayName'] = 'i7-i4712HQ'
-   params['batteryObj'] = 'BAT1'
+   params['batteryObj'] = 'BAT0'
    params['coreTemps'] = { '${hwmon 1 temp 2} °C',
 			   '${hwmon 1 temp 2} °C',
 			   '${hwmon 1 temp 3} °C',
